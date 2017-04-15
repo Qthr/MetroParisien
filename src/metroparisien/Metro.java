@@ -19,12 +19,11 @@ import java.util.Map;
 public class Metro {
    
     private TableStations stations;
-    private List<Station> trajet;
+    private Trajet trajet;
 
     public Metro(String fichierSource) {
         
         this.stations = new TableStations();
-        this.trajet = new ArrayList<>();
         
         Chargement chargement = new Chargement(fichierSource, this);  
         chargement.run();
@@ -41,29 +40,47 @@ public class Metro {
     // NB : La station de départ est la dernière station de même nom qui commence le trajet.
     // La station d'arrivée est la première station de même nom qui termine le le trajet.
     
-    public void trouverTrajet(String src, String dst){
-        Station stationSrc = stations.getByName(src);                     // Ajouter exceptions 
-        Station stationDst = stations.getByName(dst);
+    public void trouverTrajet(String strSrc, String strDst){
+                       // Ajouter exceptions 
         
-        System.out.println("Départ : " +stationSrc.toString());
-        System.out.println("Arrivé : " +stationDst.toString());
+        
+        ArrayList<Station> stationsSrc = stations.get(strSrc);
+        ArrayList<Station> stationsDst = stations.get(strDst);
+        Dijkstra dijkstraFinal = null;
+        Station dstFinal = null;
+        int i = 0;
+        for(Station src : stationsSrc){
+            for(Station dst : stationsDst){
+                Dijkstra courant = new Dijkstra(src, dst);
+                courant.run();
+                System.out.println("\nTrajet n°"+i);
+                Trajet trajet = courant.toTrajet();       
+                trajet.itineraire();
+                i++;
+                if( dijkstraFinal == null || dijkstraFinal.getDistancePCC(dstFinal) > courant.getDistancePCC(dst)){
+                    dijkstraFinal = courant;
+                    dstFinal = dst;
+                }
+                    
+            }
+        }
+        
+        System.out.println("Version 2 ");
+        System.out.println("Départ : ");
+        System.out.println("Arrivé : ");
         System.out.println();
-
-        Dijkstra dijkstra = new Dijkstra(stations, stationSrc, stationDst);
-        dijkstra.run();
        
-       Trajet trajet = dijkstra.toTrajet();
-       
+       Trajet trajet = dijkstraFinal.toTrajet();       
         trajet.itineraire();
                                                     
     }                                                       
-    
+    /*
     public void afficher(){
         Collection<Station> stats = stations.values();
         for(Station s : stats){
             System.out.println(s);
         }
     }
-    
+    */
    
 }

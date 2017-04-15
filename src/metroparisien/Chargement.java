@@ -32,31 +32,31 @@ public class Chargement {
     public void run(){
         try{
             List<String> lignes = Files.readAllLines(this.fichier, StandardCharsets.UTF_8);
-            for(String ligne : lignes){
+            HashMap<Integer, Station> tmp = new HashMap<>();                                // On se sert d'une table de hachage temportaire pour charger les stations et les liens.
+            for(String ligne : lignes){                                                     // La clé est l'id d'une station et la valeur est la station, ce qui permet de charger ensuite chaque lien en temps constant.
                 if(ligne.charAt(0) == 'V'){
                     int id = Integer.parseInt(ligne.substring(2, 6));
                     String nom = ligne.substring(7);
                     Station s = new Station(id, nom);
-                    metro.getStations().put(id, s);
+                    tmp.put(id, s);
                 }
                 else if(ligne.charAt(0) == 'E'){
                     StringTokenizer stk = new StringTokenizer(ligne.substring(2));
                     int idStation1 = Integer.parseInt(stk.nextToken());
                     int idStation2 = Integer.parseInt(stk.nextToken());
                     int duree = Integer.parseInt(stk.nextToken());
-                    Station station1 = metro.getStations().get(idStation1);
-                    Station station2 = metro.getStations().get(idStation2);
+                    Station station1 = tmp.get(idStation1);
+                    Station station2 = tmp.get(idStation2);
                     Lien l1 = new Lien(station1, station2, duree );
                     Lien l2 = new Lien(station2, station1, duree );
                     station1.getLiens().add(l1);
                     station2.getLiens().add(l2);
-
-                    
                 }
-            }   
-        } catch(IOException e)
-        {
-            System.out.println("Erreur lors du chargement du fichier source.");
+            }
+            metro.getStations().ajouterStations(tmp.values());                              // Si l'on souhaite obtenir la station d'arrivée et de départ dont les noms sont entrées par l'utilisateur, la table de hachage tmp n'est pas la structure la mieux adaptée.
+        } catch(IOException e)                                                              // Elle impliquerait de parcourir toute la table pour rechercher les stations.
+        {                                                                                   // C'est pourquoi la structure de données qu'on utilise pour stocker les stations dans un métro est une table de hachage dont la clé est le nom de la station.
+            System.out.println("Erreur lors du chargement du fichier source.");             // Un même nom pouvant correspondre à plusieurs stations, la valeur de la table sera une liste de station (et non juste une station).
         }
         
         

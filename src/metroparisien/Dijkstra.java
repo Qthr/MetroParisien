@@ -18,10 +18,11 @@ import java.util.TreeSet;
  * @author quentin
  */
 public class Dijkstra {
-    // stations ne sert à rien
+
     public static final int INF = Integer.MAX_VALUE ;       // Définition d'une valeur infinie qui représentera la distance du sommet de départ au sommet non découvert.
-    private TableStations stations;                         // L'ensemble des stations du réseau
+                                                            
     private Station src, dst;                               // La station de départ et la station d'arrivée
+    private int valeurPCC;                                  // Valeur du plus court chemin de la station de départ à la station d'arrivée.
     private HashMap<Station, Integer> distancesPCC;         // Tableau des distances des plus courts chemins du sommet de départ aux autres sommets.
     private HashMap<Station,Station> predecesseurs;         // Tableau de l'arborescence couvrante des plus courts chemins
     private HashSet<Station> stationsTraitees;              // Ensemble des sommets traités
@@ -37,8 +38,7 @@ public class Dijkstra {
         } 
     };
             
-    public Dijkstra(TableStations stations, Station src, Station dst){
-        this.stations = stations;
+    public Dijkstra(Station src, Station dst){
         this.src = src;
         this.dst = dst;
         this.distancesPCC = new HashMap<Station, Integer>();
@@ -115,7 +115,6 @@ public class Dijkstra {
         Station s = dst;
         
 	while (	s != null ) {
-            System.out.println("TEST");
             stationsTrajet.add(s) ;
              s = getPredecesseur(s);
 	}

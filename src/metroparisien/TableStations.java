@@ -5,6 +5,7 @@
  */
 package metroparisien;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -12,15 +13,18 @@ import java.util.HashMap;
  *
  * @author quentin
  */
-public class TableStations extends HashMap<Integer,Station> {
+public class TableStations extends HashMap<String,ArrayList<Station>> {
     
-    public Station getByName(String nom){
-        Collection<Station> ensembleStations = this.values();
-        for(Station s : ensembleStations){
-            if(s.getNom().equals(nom))
-                return s;
+    public void ajouterStations(Collection<Station> ensembleStation){
+        for(Station s : ensembleStation){
+            if(!this.containsKey(s.getNom())){
+                ArrayList<Station> liste = new ArrayList<>();
+                this.put(s.getNom(), liste);
+                liste.add(s);
+            }
+            else
+                this.get(s.getNom()).add(s);
         }
-        return null;
     }
     
     
