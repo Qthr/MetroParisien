@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Trajet {
     
     private ArrayList<Station> stations;
-    private int duree;
+    private int duree;      // Mettre un type de durée.
     
     
     public Trajet(ArrayList<Station> stations, int duree){

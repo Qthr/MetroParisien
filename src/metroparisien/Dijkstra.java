@@ -22,7 +22,7 @@ public class Dijkstra {
     public static final int INF = Integer.MAX_VALUE ;       // Définition d'une valeur infinie qui représentera la distance du sommet de départ au sommet non découvert.
                                                             
     private Station src, dst;                               // La station de départ et la station d'arrivée
-    private int valeurPCC;                                  // Valeur du plus court chemin de la station de départ à la station d'arrivée.
+    private int valeurPCC;                                  // Valeur de retour du plus court chemin de la station de départ à la station d'arrivée.
     private HashMap<Station, Integer> distancesPCC;         // Tableau des distances des plus courts chemins du sommet de départ aux autres sommets.
     private HashMap<Station,Station> predecesseurs;         // Tableau de l'arborescence couvrante des plus courts chemins
     private HashSet<Station> stationsTraitees;              // Ensemble des sommets traités
@@ -85,6 +85,7 @@ public class Dijkstra {
             stationsNonTraitees.add(dst);                           // On ajoute la station destination du lien à l'ensemble des sommets à traiter (elle sera triée par ordre de distance croissant au sommet de départ grâce au comparator) 
                                                                     // Note : stationsNonTraitees.remove(dst); est utile dans le cas d'un sommet qui est déja en attente de traitement (pour lequel on a déja trouvé un chemin)
         }                                                           // Si on peut effectuer un relachement vers ce sommet, cela signifie qu'on a trouvé un nouveau plus court chemin vers ce sommet, on est obligé de le supprimer de l'ensemble, modifier sa nouvelle distance, et le rajouter dans l'ensemble pour qu'il soit trié correctement.
+        valeurPCC = getDistancePCC(dst);                            // On conserve la valeur du plus cours chemin à la fin de l'algorithme. (Aussi disponible dans la table distance, mais plus propre).
     }   
     
     public Station extrairePlusProcheStation(){                      // Extrait la station actuellement la plus proche du sommet de départ, c'est à dire la première station dans l'ensemble stationsNonTraitees.
@@ -127,5 +128,10 @@ public class Dijkstra {
     }
     
     
+    // Pour appliquer Dijkstra à toutes les combinaisons possibles, fonctions nécéssaires pour TrouverTrajet() dans Metro
+    // On récupèrera cette valeur pour chaque Dijktra effectué, celui qui possèdera la plus petite fera intervenir la meilleur combinaison src/dst.
+    public int getValeurPCC() {
+        return valeurPCC;
+    }
     
 }

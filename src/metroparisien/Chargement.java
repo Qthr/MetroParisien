@@ -12,16 +12,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
  *
  * @author quentin
  */
-public class Chargement {
-    
-    private Path fichier;
+public class Chargement {                   // On utilise deux tables de hachage :
+                                            // La premier temporaire : <IDstation, Station> permet de charger les liens lors du chargement du fichier source.
+    private Path fichier;                   // La seconde permanente : <NOMStation,LISTEStations> permet une meilleur exploitation des stations d'entrée/sortie saisit par l'utilisateur. (Temps constant pour les stations sans correspondance, juste une petite liste à parcourir pour celles avec correspondances, facilite l'application de dijkstra à toutes les combinaison possible -> on parcourt juste pour chaque Station src, chaque station dst..)
     private Metro metro;
     
     public Chargement(String fichier, Metro metro){

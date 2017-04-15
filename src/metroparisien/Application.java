@@ -20,8 +20,8 @@ public class Application {
       // metro.trouverTrajet(args[1], args[2]);
       //metro.trouverTrajet("Bastille", "Couronnes");
      // metro.trouverTrajet("Montparnasse Bienvenue", "Châtelet");  Montparnasse : 4 correspondances et  Châtelet : 5 correspondances   -> 20 itérations sur Dijkstra
-      metro.trouverTrajet("République", "Châtelet");  // République : 5 correspondances et  Châtelet : 5 correspondances   -> 25 itérations sur Dijkstra
-
+     // metro.trouverTrajet("République", "Châtelet");  // République : 5 correspondances et  Châtelet : 5 correspondances   -> 25 itérations sur Dijkstra
+      metro.trouverTrajet("Lourmel", "Hoche");          // Un long chemin
       
     }
     

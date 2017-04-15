@@ -6,10 +6,6 @@
 package metroparisien;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -18,7 +14,7 @@ import java.util.Map;
  */
 public class Metro {
    
-    private TableStations stations;
+    private TableStations stations;             // Table de hachage : La clé est le nom des stations, elle permet l'accès à une liste de stations de même nom.
     private Trajet trajet;
 
     public Metro(String fichierSource) {
@@ -35,32 +31,24 @@ public class Metro {
     }
     
     
-    // On prend n'importe quelle station correspondant au nom entré
-    // On se souciera des problèmes de ligne lors de l'exploitation du résultat.
-    // NB : La station de départ est la dernière station de même nom qui commence le trajet.
-    // La station d'arrivée est la première station de même nom qui termine le le trajet.
-    
-    public void trouverTrajet(String strSrc, String strDst){
-                       // Ajouter exceptions 
-        
-        
-        ArrayList<Station> stationsSrc = stations.get(strSrc);
-        ArrayList<Station> stationsDst = stations.get(strDst);
+   
+    public void trouverTrajet(String strSrc, String strDst){        // Ajouter exceptions 
+                       
+        ArrayList<Station> stationsSrc = stations.get(strSrc);      // On récupère toutes les stations de départ correspondant au nom entrée.
+        ArrayList<Station> stationsDst = stations.get(strDst);      // On récupère toutes les stations d'arrivée correspondant au nom entrée.
         Dijkstra dijkstraFinal = null;
-        Station dstFinal = null;
         int i = 0;
-        for(Station src : stationsSrc){
-            for(Station dst : stationsDst){
-                Dijkstra courant = new Dijkstra(src, dst);
-                courant.run();
-                System.out.println("\nTrajet n°"+i);
-                Trajet trajet = courant.toTrajet();       
+        for(Station src : stationsSrc){                             // On va appliquer Dijktra pour toutes les combinaisons station de départ/station d'arrivée possibles.
+            for(Station dst : stationsDst){                         // On conservera les structures de données du Dijkstra qui a donné le meilleur résultat (la combinaison qui a le plus court chemin entre un src et un dst).
+                Dijkstra dijkstra = new Dijkstra(src, dst);
+                dijkstra.run();
+              /*  System.out.println("\nTrajet n°"+i);      ->        Pour afficher tous les chemins trouvés
+                Trajet trajet = dijkstra.toTrajet();                                           
                 trajet.itineraire();
-                i++;
-                if( dijkstraFinal == null || dijkstraFinal.getDistancePCC(dstFinal) > courant.getDistancePCC(dst)){
-                    dijkstraFinal = courant;
-                    dstFinal = dst;
-                }
+                i++;*/
+                if( dijkstraFinal == null || dijkstraFinal.getValeurPCC() > dijkstra.getValeurPCC())        // On effectue les comparaisons sur le plus court chemin trouvé pour chaque combinaison.
+                    dijkstraFinal = dijkstra;                                                                               // Si on trouve une meilleur combinaison on conserve le Dijkstra correspondant.
+                
                     
             }
         }
