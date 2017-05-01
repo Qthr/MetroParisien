@@ -5,14 +5,23 @@
  */
 package metroparisien;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author quentin
  */
 public class Ligne {
     
-    private int numero;
-    private Station terminus1;
-    private Station terminus2;
-    //private ArrayList<Station> 
+    private String nom;
+    private ArrayList<Station> stations;
+    
+    public Ligne(String nom){
+        this.nom = nom;
+        this.stations = new ArrayList<Station>();
+    }
+    
+   /*public Station trouverTerminus(Station precedente, Station suivante){
+       
+   }*/
 }

@@ -21,8 +21,11 @@ public class Application {
       //metro.trouverTrajet("Bastille", "Couronnes");
      // metro.trouverTrajet("Montparnasse Bienvenue", "Châtelet");  Montparnasse : 4 correspondances et  Châtelet : 5 correspondances   -> 20 itérations sur Dijkstra
      // metro.trouverTrajet("République", "Châtelet");  // République : 5 correspondances et  Châtelet : 5 correspondances   -> 25 itérations sur Dijkstra
-      metro.trouverTrajet("Lourmel", "Hoche");          // Un long chemin
-      
+     // metro.trouverTrajet("Lourmel", "Hoche");          // Un long chemin : 27 minutes
+      // metro.trouverTrajet("Créteil-Préfecture", "Saint-Denis-Université");  // Un encore plus long chemin : 35 minutes
+      //metro.trouverTrajet("Villejuif, Léo Lagrange", "Pierre Curie"); // Deux stations situées a un embranchement différent d'une même ligne
+      //metro.trouverTrajet("Garibaldi", "Brochant"); // Deux stations situées a un embranchement différent d'une même ligne
+      metro.trouverTrajet("Boulogne, Jean Jaurès", "Porte d'Auteuil");
     }
     
 }

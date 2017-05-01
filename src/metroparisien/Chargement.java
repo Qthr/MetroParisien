@@ -20,7 +20,7 @@ import java.util.StringTokenizer;
  */
 public class Chargement {                   // On utilise deux tables de hachage :
                                             // La premier temporaire : <IDstation, Station> permet de charger les liens lors du chargement du fichier source.
-    private Path fichier;                   // La seconde permanente : <NOMStation,LISTEStations> permet une meilleur exploitation des stations d'entrée/sortie saisit par l'utilisateur. (Temps constant pour les stations sans correspondance, juste une petite liste à parcourir pour celles avec correspondances, facilite l'application de dijkstra à toutes les combinaison possible -> on parcourt juste pour chaque Station src, chaque station dst..)
+    private Path fichier;                   // La seconde permanente : <NOMStation,LISTEStations> permet une meilleur exploitation des stations d'entrée/sortie saisies par l'utilisateur. (Temps constant pour les stations sans correspondance, juste une petite liste à parcourir pour celles avec correspondances, facilite l'application de dijkstra à toutes les combinaison possible -> on parcourt juste pour chaque Station src, chaque station dst..)
     private Metro metro;
     
     public Chargement(String fichier, Metro metro){
@@ -51,8 +51,21 @@ public class Chargement {                   // On utilise deux tables de hachage
                     station1.getLiens().add(l1);
                     station2.getLiens().add(l2);
                 }
+                else if(ligne.charAt(0) == 'L'){
+                    StringTokenizer stk = new StringTokenizer(ligne.substring(2));
+                    String nomLigne = stk.nextToken();
+                    Ligne l = new Ligne(nomLigne);
+                    while(stk.hasMoreTokens()){
+                        int idStation = Integer.parseInt(stk.nextToken());
+                        Station s = tmp.get(idStation);
+                        s.setLigne(l);
+                       // l.ajouterStation(s);
+                    }
+                }
+                
             }
             metro.getStations().ajouterStations(tmp.values());                              // Si l'on souhaite obtenir la station d'arrivée et de départ dont les noms sont entrées par l'utilisateur, la table de hachage tmp n'est pas la structure la mieux adaptée.
+            tmp.clear();
         } catch(IOException e)                                                              // Elle impliquerait de parcourir toute la table pour rechercher les stations.
         {                                                                                   // C'est pourquoi la structure de données qu'on utilise pour stocker les stations dans un métro est une table de hachage dont la clé est le nom de la station.
             System.out.println("Erreur lors du chargement du fichier source.");             // Un même nom pouvant correspondre à plusieurs stations, la valeur de la table sera une liste de station (et non juste une station).

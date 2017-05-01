@@ -5,6 +5,7 @@
  */
 package metroparisien;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -120,7 +121,8 @@ public class Dijkstra {
              s = getPredecesseur(s);
 	}
         Collections.reverse(stationsTrajet);
-        return new Trajet(stationsTrajet, getDistancePCC(dst));
+        Duration duree = Duration.ofSeconds((long) getDistancePCC(dst));
+        return new Trajet(stationsTrajet, duree );
     }
     
     public Station getPredecesseur(Station fils){

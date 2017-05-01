@@ -5,6 +5,7 @@
  */
 package metroparisien;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 /**
@@ -14,10 +15,10 @@ import java.util.ArrayList;
 public class Trajet {
     
     private ArrayList<Station> stations;
-    private int duree;      // Mettre un type de durée.
+    private Duration duree;      // Mettre un type de durée.
     
     
-    public Trajet(ArrayList<Station> stations, int duree){
+    public Trajet(ArrayList<Station> stations, Duration duree){
         this.stations = stations;
         this.duree = duree;              
     }
@@ -29,7 +30,7 @@ public class Trajet {
             itineraire += " -> "+s.getNom();
         }
         System.out.println(itineraire);
-        System.out.println("La durée du parcours est : "+duree);
+        System.out.println("La durée du parcours est : "+duree.toMinutes()+" minute(s)");     // On affiche la durée de trajet en minutes (les secondes restantes n'ont pas une importance significative)
 
     }
 

@@ -18,7 +18,8 @@ public class Station {
     private int id;
     private String nom;
     private ArrayList<Lien> liens;
-    
+    private Ligne ligne;
+
     public Station(int id, String nom){
         this.id = id;
         this.nom = nom;
@@ -49,6 +50,9 @@ public class Station {
         this.liens = liens;
     }
     
+    public void setLigne(Ligne ligne){
+        this.ligne = ligne;
+    }
     
    /* @Override
     public String toString(){
